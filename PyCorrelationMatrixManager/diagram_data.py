@@ -25,7 +25,7 @@ class DiagramFileLoader:
             current_diagram=None
             for line in file:
                 if line[0]=="B":
-                    current_diagram=line
+                    current_diagram=line[:-1]
                     self.diagram_data[current_diagram]={}
                 else:
                     data=line.split(' ')

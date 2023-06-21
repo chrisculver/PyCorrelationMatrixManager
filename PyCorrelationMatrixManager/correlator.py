@@ -28,3 +28,8 @@ class Correlator:
         for d in self.diagrams:
             res+=d.coef*diagram_values[self.diagrams.name()][dt][t]
         return res
+    
+    def load_diagram_values(self, data):
+        self.value = 0
+        for d in self.diagrams:
+            self.value += d.coef*data[d.name()][0][0]

@@ -50,3 +50,7 @@ class CorrelationMatrix:
                     
                 #print(block, block.name, block.arguments)
         return allBaryonTensors, allBaryonSinks, allBaryonProps
+
+    def load_diagram_values(self, data):
+        for c in self.correlators:
+            c.load_diagram_values(data)
