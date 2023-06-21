@@ -8,7 +8,7 @@ class DiagramData:
     def __init__(self, filenames):
         self.diagram_data = {}
         for filename in filenames: 
-            new_data = DiagramFileLoader(filename)
+            new_data = DiagramFileLoader(filename).data
             merge(self.diagram_data, new_data)
 
 class DiagramFileLoader:
@@ -16,7 +16,7 @@ class DiagramFileLoader:
         if not os.path.exists(filename):
             raise SystemError("File does not exist!  Tried loading {}".format(filename))
         else:
-            return self.load_diagarm_file(filename)
+            self.data = self.load_diagram_file(filename)
 
     def load_diagram_file(self,filename):
         self.diagram_data={}
@@ -32,8 +32,11 @@ class DiagramFileLoader:
                     dt=int(data[0])
                     t=int(data[1])
                     value=complex(float(data[2]),float(data[3]))
-
-                    self.diagram_data[current_diagram][dt]={t: value}
+                    
+                    if dt in self.diagram_data[current_diagram]:
+                        self.diagram_data[current_diagram][dt][t]=value
+                    else:
+                        self.diagram_data[current_diagram][dt]={t: value}
 
         return self.diagram_data
 
