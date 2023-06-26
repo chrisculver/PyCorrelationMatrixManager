@@ -6,6 +6,7 @@ class Correlator:
         self.cop=cop
         self.aop=aop
         self.diagrams=[]
+        self.values=[]
 
     
     def contract(self):
@@ -30,6 +31,14 @@ class Correlator:
         return res
     
     def load_diagram_values(self, data):
-        self.value = 0
         for d in self.diagrams:
-            self.value += d.coef*data[d.name()][0][0]
+            d.value = data[d.name()]
+
+    def compute_correlator(self, dts, t0s):
+        self.values = [0 for dt in dts]
+        for dt in dts:
+            value=0
+            for t0 in t0s:
+                for d in self.diagrams:
+                    value+=d.coef*d.value[dt][t0]
+            self.values[dt]=value/len(t0s)

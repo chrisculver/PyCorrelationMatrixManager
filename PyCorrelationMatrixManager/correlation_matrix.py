@@ -2,10 +2,12 @@ from WickContractions.wick.contract import *
 from PyCorrelationMatrixManager.correlator import Correlator
 
 class CorrelationMatrix:
-    def __init__(self, cops, aops):
+    def __init__(self, cops, aops, dts, t0s):
         self.cops=cops
         self.aops=aops
         self.correlators=[]
+        self.dts=dts
+        self.t0s=t0s
     
     def contract(self):
         for c in self.cops:
@@ -54,3 +56,7 @@ class CorrelationMatrix:
     def load_diagram_values(self, data):
         for c in self.correlators:
             c.load_diagram_values(data)
+
+    def compute_correlators(self):
+        for c in self.correlators:
+            c.compute_correlator(self.dts, self.t0s)
