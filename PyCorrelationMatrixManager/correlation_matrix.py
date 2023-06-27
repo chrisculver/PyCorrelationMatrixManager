@@ -4,7 +4,15 @@ from PyCorrelationMatrixManager.diagram_data import *
 from PyCorrelationMatrixManager.cpp_print_utilities import *
 
 class CorrelationMatrix:
+    """
+        The main class for interfacing with.
+    """
     def __init__(self, cops, aops, gammas, dts, t0s, cfg, dfiles=[]):
+        """
+            Initialize with a list of the creation/annihilation operators and a list of their gamma matrices,
+            a list of time separation and source times to average over, the configuration number, and finally
+            a list of files containing the numerical data for the correlators.
+        """
         self.cops=cops
         self.aops=aops
         self.correlators=[]
