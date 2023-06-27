@@ -5,10 +5,10 @@ from functools import reduce
 # DT and T data in a dictionary CAN become quite slow!
 # If updating storage of dt/t data to a np.array - need a different merge method
 class DiagramData:
-    def __init__(self, filenames):
+    def __init__(self, filenames, cfg):
         self.diagram_data = {}
         for filename in filenames: 
-            new_data = DiagramFileLoader(filename).data
+            new_data = DiagramFileLoader(filename+"{}.txt".format(cfg)).data
             merge(self.diagram_data, new_data)
 
 class DiagramFileLoader:
