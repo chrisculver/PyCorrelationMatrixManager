@@ -23,6 +23,16 @@ class CorrelationMatrix:
         self.cfg=cfg
 
     def run(self):
+        """
+            Tries to convert the correlation matrix of operators into a correlation matrix of correlation matrix values.
+            Steps:
+                1. Contract all quarks
+                2. Laphify the diagrams
+                3. Load diagram file data
+                4. Try to compute correlation functions
+                    a. If failure : generate files for cpp evaluation
+                5. Save correlators to file
+        """
         try:
             self.contract()
         except:
@@ -58,6 +68,9 @@ class CorrelationMatrix:
             raise RuntimeError("Couldn't save results to file")
 
     def contract(self):
+        """
+            Contract all correlation matrix elements
+        """
         for c in self.cops:
             for a in self.aops:
                 corr=Correlator(a,c)
@@ -65,11 +78,17 @@ class CorrelationMatrix:
                 self.correlators.append(corr)
 
     def laphify(self):
+        """
+            Convert diagram of point propagators into LapH space
+        """
         for c in self.correlators:
             c.laphify()
 
     
     def get_all_diagrams(self):
+        """
+            Get a list of all the diagrams needed by the correlation matrix
+        """
         all_diagrams=[]
         for c in self.correlators:
             for d in c.diagrams:
@@ -78,6 +97,10 @@ class CorrelationMatrix:
         return all_diagrams
     
     def get_baryon_tensor_dictionaries(self):
+        """
+            Get dictionaries needed for generating the files for cpp evaluation.
+            Returns three dictionaries mapping all baryonic tensors to indices
+        """
         sinkIdx=0
         allBaryonSinks={}
         propIdx=0
@@ -102,14 +125,23 @@ class CorrelationMatrix:
         return allBaryonTensors, allBaryonSinks, allBaryonProps
 
     def load_diagram_values(self, data):
+        """
+            Transfer data from the diagram files into the Diagram class
+        """
         for c in self.correlators:
             c.load_diagram_values(data)
 
     def compute_correlators(self):
+        """
+            Compute all correlators averaging over source times
+        """
         for c in self.correlators:
             c.compute_correlator(self.dts, self.t0s)
 
     def save_corrs_to_files(self):
+        """
+            Save correlation functions to files.s
+        """
         for i in range(0,len(self.aops)):
             for j in range(0,len(self.cops)):
                 corr = self.correlators[i*len(self.aops)+j].values

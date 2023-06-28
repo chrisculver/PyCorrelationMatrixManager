@@ -18,6 +18,8 @@ Code for managing correlation matrices in LQCD LapH scattering projects.
   :maxdepth: 3
   :caption: API
 
+  API/correlation_matrix.rst
+  API/utilities.rst
 
 
 

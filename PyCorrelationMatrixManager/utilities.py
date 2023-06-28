@@ -1,6 +1,14 @@
+"""
+    General utilities
+"""
+
 import copy
 
 def diagram_as_graph(d, allBaryonTensors):
+    """
+        Converts a diagram to a graph.
+        B[0]_{123} B_[2]_{321} -> {0,2: [[0,2],[1,1],[2,0]]}
+    """
     tst=copy.deepcopy(d)
 
     graph = {}

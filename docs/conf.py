@@ -12,12 +12,12 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../src'))
+sys.path.insert(0, os.path.abspath('../PyCorrelationMatrixManager'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'Wick Contractions'
+project = 'PyCorrelationMatrixManager'
 copyright = '2021, Chris Culver'
 author = 'Chris Culver'
 
