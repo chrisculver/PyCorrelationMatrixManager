@@ -4,34 +4,38 @@ from PyCorrelationMatrixManager.diagram_data import *
 from PyCorrelationMatrixManager.cpp_print_utilities import *
 
 class CorrelationMatrix:
+    """ The main class to interface with, just requires initialization and then calling run(). 
     """
-        The main class for interfacing with.
-    """
+
     def __init__(self, cops, aops, gammas, dts, t0s, cfg, dfiles=[]):
-        """
-            Initialize with a list of the creation/annihilation operators and a list of their gamma matrices,
-            a list of time separation and source times to average over, the configuration number, and finally
-            a list of files containing the numerical data for the correlators.
-        """
+        #:list(WickContractions.ops.operator): Array of creation operators built via WickContractions.ops objects
         self.cops=cops
+        #:list(WickContractions.ops.operator): Array of annihilation operators built via WickContractions.ops objects
         self.aops=aops
+        #:list(Correlators): A list of all correlators
         self.correlators=[]
+        #:list(int): Array of creation annihilation operator separations to compute correlators at
         self.dts=dts
+        #:list(int): Array of source times to average over
         self.t0s=t0s
+        #:list(str): List of diagram file base names formated as diagram_cfg.txt, leave out cfg.txt   
         self.dfiles=dfiles
+        #:list(str): Array of strings of names of gamma tensors.
         self.gammas=gammas
+        #:int: Cfg to load dfiles for and compute correlators on
         self.cfg=cfg
 
     def run(self):
-        """
-            Tries to convert the correlation matrix of operators into a correlation matrix of correlation matrix values.
-            Steps:
-                1. Contract all quarks
-                2. Laphify the diagrams
-                3. Load diagram file data
-                4. Try to compute correlation functions
-                    a. If failure : generate files for cpp evaluation
-                5. Save correlators to file
+        """ Tries to convert the correlation matrix of operators into a correlation matrix of correlation matrix values.
+            
+        Steps
+
+        1. Contract all quarks
+        2. Laphify the diagrams
+        3. Load diagram file data
+        4. Try to compute correlation functions
+        5. Save correlators to file
+
         """
         try:
             self.contract()
@@ -68,8 +72,9 @@ class CorrelationMatrix:
             raise RuntimeError("Couldn't save results to file")
 
     def contract(self):
-        """
-            Contract all correlation matrix elements
+        """ Contract all correlation matrix elements according to Wick's theorem.
+
+            See WickContractions.contract?
         """
         for c in self.cops:
             for a in self.aops:
@@ -78,16 +83,21 @@ class CorrelationMatrix:
                 self.correlators.append(corr)
 
     def laphify(self):
-        """
-            Convert diagram of point propagators into LapH space
+        """ Convert diagram of point propagators into LapH space
+
+            Specifically, convert :math:`D^{-1}\\rightarrow\\tau` and adds appropriate :math:`V` matrices.
         """
         for c in self.correlators:
             c.laphify()
 
     
     def get_all_diagrams(self):
-        """
-            Get a list of all the diagrams needed by the correlation matrix
+        """ Gets all diagrams that occur in the correlation matrix.
+
+            This is used to generate the cpp files for numerically evaluating the diagrams.
+        
+            Return:
+                List(LDiagram)
         """
         all_diagrams=[]
         for c in self.correlators:
@@ -97,9 +107,16 @@ class CorrelationMatrix:
         return all_diagrams
     
     def get_baryon_tensor_dictionaries(self):
-        """
-            Get dictionaries needed for generating the files for cpp evaluation.
-            Returns three dictionaries mapping all baryonic tensors to indices
+        """ Gets dictionaries mapping tensor names to indices.
+
+            Return values of tuple are 
+
+            # All baryon tensors
+            # baryon sinks
+            # baryon props
+        
+            Return:
+                Tuple(Dictionary(LDiagram,int), Dictionary(LDiagram,int), Dictionary(LDiagram,int))
         """
         sinkIdx=0
         allBaryonSinks={}
@@ -108,6 +125,9 @@ class CorrelationMatrix:
         bIdx=0
         allBaryonTensors={}
 
+        # iterate through all correlators and diagrams
+        # if the tensor is NOT in the appropriate list 
+        # add it and increase the index.
         for c in self.correlators:
             d = c.diagrams[0]
             for block in d.commuting:
@@ -125,29 +145,34 @@ class CorrelationMatrix:
         return allBaryonTensors, allBaryonSinks, allBaryonProps
 
     def load_diagram_values(self, data):
-        """
-            Transfer data from the diagram files into the Diagram class
+        """ Transfer data from the diagram files into the Diagram class
+
+            Args:
+                data (Dictionary(str, complex)): Maps diagram name to series of complex valules for different dt,t0
         """
         for c in self.correlators:
             c.load_diagram_values(data)
 
     def compute_correlators(self):
-        """
-            Compute all correlators averaging over source times
+        """ Compute all correlators averaging over source times
         """
         for c in self.correlators:
             c.compute_correlator(self.dts, self.t0s)
 
     def save_corrs_to_files(self):
-        """
-            Save correlation functions to files.s
+        """ Save correlation functions to files.
+
+            Files for annihilation operator i and creation operator j are named as 
+            "corr_aopi_copj_cfg.txt".  The content is two columns, with the 
+            real part in the first column and imaginary part in the second column.  Each
+            line is a different dt.
         """
         for i in range(0,len(self.aops)):
             for j in range(0,len(self.cops)):
                 corr = self.correlators[i*len(self.aops)+j].values
 
                 with open("corr_aop{}_cop{}_{}.txt".format(i,j,self.cfg),'w') as file:
-                    for value in corr[:-1]:
+                    for value in corr[:-1]: # avoid newline on last line of file.
                         file.write("{} {}\n".format(value.real, value.imag))
                     file.write("{} {}".format(corr[-1].real, corr[-1].imag))
                     

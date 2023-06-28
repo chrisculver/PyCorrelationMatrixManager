@@ -4,5 +4,5 @@ Utilities
 =========
 
 
-.. automodule:: utilities
+.. automodule:: PyCorrelationMatrixManager.utilities
     :members:
