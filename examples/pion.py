@@ -1,3 +1,8 @@
 from PyCorrelationMatrixManager.correlation_matrix import CorrelationMatrix
+from make_ops import *
 
-print("wow")
+create=create_pion_op()
+annihilate=annihilate_pion_op
+
+
+cmat = CorrelationMatrix(create, annihilate)

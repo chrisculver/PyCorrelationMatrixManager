@@ -23,6 +23,7 @@ For more advanced use see [su4workflow](github.com/chrisculver/su4workflow).
 
 ## TODO
 
+* Dont pass in gammas, those are in the ops already...  but need to do correctly for indexing [easy]
 * When crashing, give minimal computation required [easy]
 * When generating computation - integrate CSE & DC [hard]
 * Unit tests [easy]
