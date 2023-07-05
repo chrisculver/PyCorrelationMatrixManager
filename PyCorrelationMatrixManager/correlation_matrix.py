@@ -26,14 +26,12 @@ class CorrelationMatrix:
         self.cfg=cfg
 
     def run(self):
-        """ Tries to convert the correlation matrix of operators into a correlation matrix of correlation matrix values.
-            
-        Steps
+        """ Takes all of the operators and performs the following
 
         1. Contract all quarks
         2. Laphify the diagrams
         3. Load diagram file data
-        4. Try to compute correlation functions
+        4. Compute correlator value
         5. Save correlators to file
 
         """
@@ -72,9 +70,9 @@ class CorrelationMatrix:
             raise RuntimeError("Couldn't save results to file")
 
     def contract(self):
-        """ Contract all correlation matrix elements according to Wick's theorem.
+        """ Contract all correlation matrix elements using Wick's theorem.
 
-            See WickContractions.contract?
+            See WickContractions.contract.
         """
         for c in self.cops:
             for a in self.aops:
@@ -85,7 +83,12 @@ class CorrelationMatrix:
     def laphify(self):
         """ Convert diagram of point propagators into LapH space
 
-            Specifically, convert :math:`D^{-1}\\rightarrow\\tau` and adds appropriate :math:`V` matrices.
+                Specifically 
+                
+                1. Convert :math:`D^{-1}\\rightarrow\\tau` and adds appropriate :math:`V` matrices.
+                2. Combine appropriate objects into T tensors
+                3.
+
         """
         for c in self.correlators:
             c.laphify()
