@@ -19,6 +19,7 @@ Code for managing correlation matrices in LQCD LapH scattering projects.
   :caption: API
 
   API/correlation_matrix.rst
+  API/correlator.rst
   API/utilities.rst
 
 
