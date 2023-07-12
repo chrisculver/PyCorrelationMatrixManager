@@ -15,6 +15,12 @@ Code for managing correlation matrices in LQCD LapH scattering projects.
    user_guide/getting_started.rst
 
 .. toctree::
+   :maxdepth: 2
+   :caption: Examples 
+
+   examples/pipi.ipynb
+
+.. toctree::
   :maxdepth: 3
   :caption: API
 
