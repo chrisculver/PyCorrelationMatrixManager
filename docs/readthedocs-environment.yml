@@ -1,0 +1,11 @@
+name: rtdWC
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - sphinx
+  - pandoc
+  - nbconvert
+  - ipykernel
+  - pip:
+    - nbsphinx
