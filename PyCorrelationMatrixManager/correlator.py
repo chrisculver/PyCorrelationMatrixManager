@@ -33,13 +33,11 @@ class Correlator:
             self.diagrams[i]=LDiagram(d)
 
         for d in self.diagrams:
-            d.create_baryon_blocks()
+            d.create_m_blocks()
+            d.create_b_blocks()
+            d.create_hadron_blocks()
             d.combine_indices()
-
-        # the below has no guarantee to be NC agnostic nor work for any multi meson&baryon operator
-        for d in self.diagrams:
-            d.create_baryon_source()
-    
+            d.create_hadron_source()    
 
     def load_diagram_values(self, data):
         """ loads from DiagramData into the diagram"""
