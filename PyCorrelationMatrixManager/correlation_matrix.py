@@ -7,7 +7,7 @@ class CorrelationMatrix:
     """ The main class to interface with, just requires initialization and then calling run(). 
     """
 
-    def __init__(self, cops, aops, gammas, dts, t0s, cfg, dfiles=[]):
+    def __init__(self, cops, aops, dts, t0s, cfg, dfiles=[]):
         #:list(WickContractions.ops.operator): Array of creation operators built via WickContractions.ops objects
         self.cops=cops
         #:list(WickContractions.ops.operator): Array of annihilation operators built via WickContractions.ops objects
@@ -20,8 +20,14 @@ class CorrelationMatrix:
         self.t0s=t0s
         #:list(str): List of diagram file base names formated as diagram_cfg.txt, leave out cfg.txt   
         self.dfiles=dfiles
-        #:list(str): Array of strings of names of gamma tensors.
-        self.gammas=gammas
+        #get all gamma matrix names
+        self.gammas=[]
+        for o in cops:
+            for g in o.get_gammas():
+                self.gammas.append(g)
+        for o in aops:
+            for g in o.get_gammas():
+                self.gammas.append(g)
         #:int: Cfg to load dfiles for and compute correlators on
         self.cfg=cfg
 
