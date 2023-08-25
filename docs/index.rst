@@ -7,16 +7,19 @@ Correlation Matrix Manager
 ==========================
 
 
-Code for managing correlation matrices in LQCD LapH scattering projects.  The best place to get started 
-is the `pion example notebook`_.
+Code for managing correlation matrices in LQCD LapH scattering projects.  
+To get right into using this package head to `pion example notebook`_.  
+For an explanation of what this package does head to the `detailed pion notebook`_.
 
 .. _pion example notebook: examples/pion.ipynb
+.. _detailed pion notebook: examples/pion_detailed.ipynb
 
 .. toctree::
    :maxdepth: 2
    :caption: Examples 
 
    examples/pion.ipynb
+   examples/pion_detailed.ipynb
    examples/pipi.ipynb
 
 .. toctree::
