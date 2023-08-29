@@ -19,7 +19,7 @@ For an explanation of what this package does head to the `detailed pion notebook
    :caption: Examples 
 
    examples/pion.ipynb
-   examples/pion_detailed.ipynb
+   examples/pion_laphdetailed.ipynb
    examples/pipi.ipynb
 
 .. toctree::

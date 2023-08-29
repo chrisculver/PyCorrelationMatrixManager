@@ -143,10 +143,10 @@ class CorrelationMatrix:
                 if block.id() not in allBaryonTensors:
                     allBaryonTensors[block.id()]=bIdx
                     bIdx+=1
-                if block.name=="B" and block.id() not in allBaryonSinks:
+                if (block.name=="B" or block.name=="M") and block.id() not in allBaryonSinks:
                     allBaryonSinks[block.id()]=sinkIdx
                     sinkIdx+=1
-                elif block.name=="B^*" and block.id() not in allBaryonProps:
+                elif (block.name=="B^*" or block.name=="M") and block.id() not in allBaryonProps:
                     allBaryonProps[block.id()]=propIdx 
                     propIdx+=1
                     
