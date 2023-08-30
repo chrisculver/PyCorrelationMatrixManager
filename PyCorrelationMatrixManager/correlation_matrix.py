@@ -138,6 +138,8 @@ class CorrelationMatrix:
         # if the tensor is NOT in the appropriate list 
         # add it and increase the index.
         for c in self.correlators:
+            if len(c.diagrams)==0:
+                continue
             d = c.diagrams[0]
             for block in d.commuting:
                 if block.id() not in allBaryonTensors:
